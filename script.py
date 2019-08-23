@@ -26,6 +26,8 @@ logging.basicConfig(level=logging.WARNING)
 
 # This is our update handler. It is called when a new update arrives.
 # Register `events.NewMessage` before defining the client.
+
+
 @client.on(events.CallbackQuery)
 async def callback(event):
     if format(event.data) == "b'sil'":
@@ -43,7 +45,10 @@ async def handler(update):
             token2 = tokenfile.read()
             start = time.time()
             message = await update.reply('İndirme işlemi başlıyor.')
-            dosyaismi = await client.download_media(update.message)
+            async def progress(current, total):
+                sonuc = (current / total) * 100
+                await message.edit("Durum: " + str(round(current,2)))
+            dosyaismi = await client.download_media(update.message,progress_callback=progress)
             await message.edit("İndirme işlemi başarılı... Yandexe yükleniyor.")
             y = yadisk.YaDisk(token=token2)
             y.upload(dosyaismi, dosyaismi)
@@ -55,6 +60,7 @@ async def handler(update):
             await client.send_message(userid, 'Dosya Başarılı Şekilde Yandexe Yüklendi! İşte Link:', buttons=[
             [Button.url('Yandex.Disk', link)]
             ])
+            os.remove(dosyaismi)
         else:
             y = yadisk.YaDisk("7ab5436b2b83434390f569d5f92c9b69", "167dfabacd3a4fa9b749cd4b1af42758")
             url = y.get_code_url()
