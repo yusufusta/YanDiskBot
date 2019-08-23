@@ -1,7 +1,6 @@
 import sys
 import os
 import yadisk
-import os
 import sys
 import time
 import logging
@@ -43,7 +42,7 @@ async def handler(update):
         if os.path.isfile(str(userid)):
             tokenfile = open(str(userid),'r')
             token2 = tokenfile.read()
-            
+            download_result = await client.download_media(update.message, download_path)
             y = yadisk.YaDisk(token=token2)
             y.upload("yusuf.txt", "yusuf3.txt")
             y.publish("yusuf3.txt");
