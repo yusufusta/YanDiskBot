@@ -38,23 +38,30 @@ async def callback(event):
 async def handler(update):
     if update.message.media is not None:
         userid = update.message.from_id
-        print(update.message)
         if os.path.isfile(str(userid)):
             tokenfile = open(str(userid),'r')
             token2 = tokenfile.read()
-            download_result = await client.download_media(update.message, download_path)
+            start = time.time()
+            message = await update.reply('İndirme işlemi başlıyor.')
+            dosyaismi = await client.download_media(update.message)
+            await message.edit("İndirme işlemi başarılı... Yandexe yükleniyor.")
             y = yadisk.YaDisk(token=token2)
-            y.upload("yusuf.txt", "yusuf3.txt")
-            y.publish("yusuf3.txt");
-            link = y.get_meta("yusuf2.txt").public_url
-            await update.reply(link)
+            y.upload(dosyaismi, dosyaismi)
+            y.publish(dosyaismi)
+            await message.edit("Yandexe Yüklendi! Link alınıyor...")
+            link = y.get_meta(dosyaismi).public_url
+            finish = time.time() - start
+            await message.edit("Dosya " + str(round(finish)) + " saniye içinde Yandex'e yüklendi!")
+            await client.send_message(userid, 'Dosya Başarılı Şekilde Yandexe Yüklendi! İşte Link:', buttons=[
+            [Button.url('Yandex.Disk', link)]
+            ])
         else:
             y = yadisk.YaDisk("7ab5436b2b83434390f569d5f92c9b69", "167dfabacd3a4fa9b749cd4b1af42758")
             url = y.get_code_url()
             async with client.conversation(userid) as conv:
-                await conv.send_message("Aşağıdaki butona tıklayıp yandexin websitesine gideceksiniz, ardından uygulamaya izin veriniz, izin verdikten sonra bir kod alacaksınız. O kodu yazınız.", buttons=[
-    [
-    [Button.url('Bu uygulamaya izin ver', url)]])
+                await conv.send_message(userid, 'Aşağıdaki butona tıklayıp yandexin websitesine gideceksiniz, ardından uygulamaya izin veriniz, izin verdikten sonra bir kod alacaksınız. O kodu yazınız.', buttons=[
+                [Button.url('Bu uygulamaya izin ver', url)]
+                ])
                 code = await conv.get_response()
                 response = y.get_token(code.raw_text)
                 y.token = response.access_token
