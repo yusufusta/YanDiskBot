@@ -9,6 +9,7 @@ import logging
 from telethon import TelegramClient, events
 from telethon import events
 from telethon.tl.custom import Button
+from hurry.filesize import size, si
 
 # Define some variables so the code reads easier
 session = "tg_downloader"
@@ -47,16 +48,17 @@ async def handler(update):
             message = await update.reply('İndirme işlemi başlıyor.')
             async def progress(current, total):
                 sonuc = (current / total) * 100
-                await message.edit("Durum: " + str(round(current,2)))
+                await message.edit("Durum: %" + str(round(sonuc,2)) + " Yüklendi.\nToplam Boyut: " + str(size(total, system=si)) + "\nİndirilen Boyut: " + str(size(current, system=si)))
             dosyaismi = await client.download_media(update.message,progress_callback=progress)
-            await message.edit("İndirme işlemi başarılı... Yandexe yükleniyor.")
+            await message.delete()
+            message2 = await update.reply("İndirme işlemi başarılı... Yandexe yükleniyor.")
             y = yadisk.YaDisk(token=token2)
             y.upload(dosyaismi, dosyaismi)
             y.publish(dosyaismi)
-            await message.edit("Yandexe Yüklendi! Link alınıyor...")
+            await message2.edit("Yandexe Yüklendi! Link alınıyor...")
             link = y.get_meta(dosyaismi).public_url
             finish = time.time() - start
-            await message.edit("Dosya " + str(round(finish)) + " saniye içinde Yandex'e yüklendi!")
+            await message2.edit("Dosya " + str(round(finish)) + " saniye içinde Yandex'e yüklendi!")
             await client.send_message(userid, 'Dosya Başarılı Şekilde Yandexe Yüklendi! İşte Link:', buttons=[
             [Button.url('Yandex.Disk', link)]
             ])
