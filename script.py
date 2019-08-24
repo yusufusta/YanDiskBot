@@ -62,24 +62,33 @@ async def handler(update):
             await client.send_message(userid, 'Dosya Başarılı Şekilde Yandexe Yüklendi! İşte Link:', buttons=[
             [Button.url('Yandex.Disk', link)]
             ])
-            os.remove(dosyaismi)
+            os.unlink(dosyaismi)
         else:
             y = yadisk.YaDisk("7ab5436b2b83434390f569d5f92c9b69", "167dfabacd3a4fa9b749cd4b1af42758")
-            url = y.get_code_url()
+            url2 = y.get_code_url()
             async with client.conversation(userid) as conv:
-                await conv.send_message(userid, 'Aşağıdaki butona tıklayıp yandexin websitesine gideceksiniz, ardından uygulamaya izin veriniz, izin verdikten sonra bir kod alacaksınız. O kodu yazınız.', buttons=[
-                [Button.url('Bu uygulamaya izin ver', url)]
-                ])
-                code = await conv.get_response()
-                response = y.get_token(code.raw_text)
-                y.token = response.access_token
-
+                try:
+                    await conv.send_message('Aşağıdaki butona tıklayıp yandexin websitesine gideceksiniz, ardından uygulamaya izin veriniz, izin verdikten sonra bir kod alacaksınız. O kodu yazınız.', buttons=[
+                    [Button.url('Bu uygulamaya izin ver', url2)]
+                    ])
+                    code = await conv.get_response()
+                except asyncio.TimeoutError as e:
+                    await conv.send_message("Timeout error. Please resend media and try again.")
+                try:
+                    response = y.get_token(code.raw_text)
+                except yadisk.exceptions.BadRequestError:
+                    await conv.send_message("Bad code. Please resend media and try again.")
+                    return
+                if update.message.out == "false":
+                    while not any(x.isdigit() for x in code.raw_text):
+                        await conv.send_message("Your name didn't have any number! Try again")
+            y.token = response.access_token
             if y.check_token():
-                await update.reply("Token başarılı bir şekilde kaydedildi!")
+                await conv.send_message("Token başarılı bir şekilde kaydedildi!")
                 dosya = open(str(userid),"w",encoding="utf-8")
                 dosya.write(y.token)
             else:
-                await update.reply("Something went wrong. Not sure how though...")
+                await conv.send_message("Something went wrong. Not sure how though...")
         
 
     elif update.message.message == "/start":
