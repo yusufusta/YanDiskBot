@@ -1,0 +1,59 @@
+{
+  "name": "YanDiskBot",
+  "description": "Basic Yandex Disk Uploader Telegram Bot",
+  "logo": "https://telegra.ph/file/6ce444f5ba54d79fb8622.jpg",
+  "keywords": [
+    "telegram",
+    "bot",
+    "yandex",
+    "yadisk",
+    "yandex disk"
+  ],
+  "repository": "https://github.com/Quiec/YanDiskBot/",
+  "website": "https://telegram.dog/quiec",
+  "success_url": "https://t.me/quiecs/79",
+  "env": {
+    "ENV": {
+      "description": "Setting this to ANYTHING will enable environment variables.",
+      "value": "ANYTHING"
+    },
+    "APPID": {
+      "description": "Get this value from my.telegram.org! Please do not steal",
+      "value": "6"
+    },
+    "APIHASH": {
+      "description": "Get this value from my.telegram.org! Please do not steal",
+      "value": ""
+    },
+    "SESSION": {
+      "description": "session name",
+      "value": "yandex"
+    },
+    "BOTTOKEN": {
+      "description": "Get your bot token from @botfather",
+      "required": true
+    },
+    "ADMINID": {
+      "description": "Type your TELEGRAM ID",
+      "required": true
+    },
+    "YANDEX_APP_ID": {
+      "description": "Type your TELEGRAM username without @",
+      "required": true
+    },
+    "YANDEX_APP_ID": {
+      "description": "https://github.com/Quiec/YanDiskBot#settingsenv",
+      "required": true
+    },
+    "YANDEX_APP_SECRET": {
+      "description": "https://github.com/Quiec/YanDiskBot#settingsenv",
+      "required": true
+    },
+    
+  },
+  
+  "buildpacks": [{
+    {
+    "url": "heroku/python"
+  }]
+}
