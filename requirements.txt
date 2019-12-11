@@ -1,2 +1,4 @@
-hurry.filesize==0.9
-Telethon==1.9.0
+hurry.filesize
+telethon
+yadisk-async
+dotenv
