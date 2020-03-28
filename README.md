@@ -4,7 +4,7 @@ Basic Yandex Disk Uploader Telegram Bot.
 ## Install
 
 ### Easy Way
-I will add.
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ### Hard Way
 
@@ -13,9 +13,10 @@ My suggestion, please use python 3.6+
     git clone https://github.com/Quiec/YanDiskBot
     cd YanDiskBot
     pip install -r requirements.txt
+    nano config.py //Edit Infos
     python3 script.py
 
-## Create Yandex Disk API
+#### Create Yandex Disk API
 
 - Create an app first.
 - Don't forget that infos
@@ -28,12 +29,7 @@ My suggestion, please use python 3.6+
 
 - And save.
 
-## Settings.Env
-
 ![APP](https://i.hizliresim.com/gPQZO2.png)
-
-APPID and APPHASH are get it from my.telegram.org
-You must set ADMINID for use bot.
 
 ## Contact
 
