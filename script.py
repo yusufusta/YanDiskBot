@@ -74,7 +74,7 @@ async def handler(update):
                     except asyncio.TimeoutError as e:
                         await conv.send_message("Timeout error. Please resend media and try again.")
                     try:
-                        response = await y.get_token(code.raw_text)
+                        response = y.get_token(code.raw_text)
                     except yadisk.exceptions.BadRequestError:
                         await conv.send_message("Bad code. Please resend media and try again.")
                         
