@@ -63,7 +63,7 @@ async def handler(update):
                 ])
                 os.unlink(dosyaismi)
             else:
-                y = yadisk_async.YaDisk(yandex_app_id, yandex_app_secret)
+                y = yadisk.YaDisk(yandex_app_id, yandex_app_secret)
                 url2 = y.get_code_url()
                 async with client.conversation(userid) as conv:
                     try:
@@ -75,10 +75,10 @@ async def handler(update):
                         await conv.send_message("Timeout error. Please resend media and try again.")
                     try:
                         response = await y.get_token(code.raw_text)
-                    except yadisk_async.exceptions.BadRequestError:
+                    except yadisk.exceptions.BadRequestError:
                         await conv.send_message("Bad code. Please resend media and try again.")
                         
-                    except yadisk_async.exceptions.ForbiddenError:
+                    except yadisk.exceptions.ForbiddenError:
                         await conv.send_message("Please, First create YandexDisk user with this link. https://disk.yandex.com/client/disk")
                         
                     if update.message.out == "false":
