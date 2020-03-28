@@ -1,32 +1,29 @@
 import sys
 import os
-import yadisk_async
+import yadisk
 import sys
 import time
 import logging
 import asyncio
 
 # Import somethings
+from config import BOTTOKEN, ADMINID, ADMINUSERNAME, YANDEXAPPID, YANDEXAPPSECRET
 from os.path import join, dirname
-from dotenv import load_dotenv
 from telethon import TelegramClient, events
 from telethon import events
 from telethon.tl.custom import Button
 from hurry.filesize import size, si
 
-dotenv_path = join(dirname(__file__), 'settings.env')
-load_dotenv(dotenv_path)
-
-session = os.environ.get("SESSION")
-api_id = os.environ.get("APIID")
-api_hash = os.environ.get("APIHASH")
-bot_token = os.environ.get("BOTTOKEN")
+session = "yandisk"
+api_id = 4
+api_hash = "014b35b6184100b085b0d0572f9b5103"
+bot_token = BOTTOKEN
 debug_enabled = "true"
-user_id = os.environ.get("ADMINID")
-admin = os.environ.get("ADMINUSERNAME")
+user_id = ADMINID
+admin = ADMINUSERNAME
 
-yandex_app_id = os.environ.get("YANDEX_APP_ID")
-yandex_app_secret = os.environ.get("YANDEX_APP_SECRET")
+yandex_app_id = YANDEXAPPID
+yandex_app_secret = YANDEXAPPSECRET
 client = TelegramClient(session, api_id, api_hash)
 logging.basicConfig(level=logging.WARNING)
 
@@ -54,11 +51,11 @@ async def handler(update):
                 dosyaismi = await client.download_media(update.message,progress_callback=progress)
                 await message.delete()
                 message2 = await update.reply("İndirme işlemi başarılı... Yandexe yükleniyor.")
-                y = yadisk_async.YaDisk(token=token2)
-                await y.upload(dosyaismi, dosyaismi)
-                await y.publish(dosyaismi)
+                y = yadisk.YaDisk(token=token2)
+                y.upload(dosyaismi, dosyaismi)
+                y.publish(dosyaismi)
                 await message2.edit("Yandexe Yüklendi! Link alınıyor...")
-                link = await y.get_meta(dosyaismi).public_url
+                link = y.get_meta(dosyaismi).public_url
                 finish = time.time() - start
                 await message2.edit("Dosya " + str(round(finish)) + " saniye içinde Yandex'e yüklendi!")
                 await client.send_message(userid, 'Dosya Başarılı Şekilde Yandexe Yüklendi! İşte Link:', buttons=[

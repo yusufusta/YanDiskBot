@@ -17,7 +17,7 @@
       "description": "Setting this to ANYTHING will enable environment variables.",
       "value": "ANYTHING"
     },
-    "APPID": {
+    "APIID": {
       "description": "Get this value from my.telegram.org! Please do not steal",
       "value": "6"
     },
@@ -37,23 +37,21 @@
       "description": "Type your TELEGRAM ID",
       "required": true
     },
-    "YANDEX_APP_ID": {
+    "YANDEXAPPID": {
       "description": "Type your TELEGRAM username without @",
       "required": true
     },
-    "YANDEX_APP_ID": {
+    "YANDEXAPPSECRET": {
       "description": "https://github.com/Quiec/YanDiskBot#settingsenv",
       "required": true
     },
-    "YANDEX_APP_SECRET": {
+    "ADMINUSERNAME": {
       "description": "https://github.com/Quiec/YanDiskBot#settingsenv",
       "required": true
-    },
-    
+    }
   },
   
   "buildpacks": [{
-    {
     "url": "heroku/python"
   }]
 }

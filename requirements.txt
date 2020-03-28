@@ -1,4 +1,3 @@
 hurry.filesize
 telethon
-yadisk-async
-dotenv
+yadisk
