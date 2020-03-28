@@ -44,22 +44,22 @@ async def handler(update):
                 tokenfile = open(str(userid),'r')
                 token2 = tokenfile.read()
                 start = time.time()
-                message = await update.reply('İndirme işlemi başlıyor.')
+                message = await update.reply('Download process is starting...')
                 async def progress(current, total):
                     sonuc = (current / total) * 100
-                    await message.edit("Durum: %" + str(round(sonuc,2)) + " Yüklendi.\nToplam Boyut: " + str(size(total, system=si)) + "\nİndirilen Boyut: " + str(size(current, system=si)))
+                    await message.edit("Status: %" + str(round(sonuc,2)) + " Downloaded.\nTotal Size: " + str(size(total, system=si)) + "\nDownloaded Sizze: " + str(size(current, system=si)))
                 dosyaismi = await client.download_media(update.message,progress_callback=progress)
                 await message.delete()
-                message2 = await update.reply("İndirme işlemi başarılı... Yandexe yükleniyor.")
+                message2 = await update.reply("Succesfully downloaded... Uploadinh to Yandex...")
                 y = yadisk.YaDisk(token=token2)
                 y.upload(dosyaismi, dosyaismi)
                 y.publish(dosyaismi)
-                await message2.edit("Yandexe Yüklendi! Link alınıyor...")
+                await message2.edit("Succesfully uploaded! Getting public-link...")
                 link = y.get_meta(dosyaismi).public_url
                 finish = time.time() - start
-                await message2.edit("Dosya " + str(round(finish)) + " saniye içinde Yandex'e yüklendi!")
-                await client.send_message(userid, 'Dosya Başarılı Şekilde Yandexe Yüklendi! İşte Link:', buttons=[
-                [Button.url('Yandex.Disk', link)]
+                await message2.delete()
+                await client.send_message(userid, "File is uploaded in " + str(round(finish)) + " seconds!", buttons=[
+                [Button.url('Public Link', link)]
                 ])
                 os.unlink(dosyaismi)
             else:
