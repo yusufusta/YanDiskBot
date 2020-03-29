@@ -85,7 +85,7 @@ async def handler(update):
                         while not any(x.isdigit() for x in code.raw_text):
                             await conv.send_message("Your name didn't have any number! Try again")
                 y.token = response.access_token
-                if await y.check_token():
+                if y.check_token():
                     await conv.send_message("Token başarılı bir şekilde kaydedildi!")
                     dosya = open(str(userid),"w",encoding="utf-8")
                     dosya.write(y.token)
