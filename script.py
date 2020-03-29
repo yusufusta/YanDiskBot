@@ -7,7 +7,7 @@ import logging
 import asyncio
 
 # Import somethings
-from config import BOTTOKEN, ADMINID, ADMINUSERNAME, YANDEXAPPID, YANDEXAPPSECRET
+from config import BOTTOKEN, ADMINID, ADMINUSERNAME, YANDEXAPPID, YANDEXAPPSECRET, APIID, APIHASH
 from os.path import join, dirname
 from telethon import TelegramClient, events
 from telethon import events
@@ -15,8 +15,8 @@ from telethon.tl.custom import Button
 from hurry.filesize import size, si
 
 session = "yandisk"
-api_id = 4
-api_hash = "014b35b6184100b085b0d0572f9b5103"
+api_id = APIID
+api_hash = APIHASH
 bot_token = BOTTOKEN
 debug_enabled = "true"
 user_id = ADMINID
