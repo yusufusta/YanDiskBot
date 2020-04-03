@@ -50,7 +50,7 @@ async def handler(update):
                     await message.edit("Status: %" + str(round(sonuc,2)) + " Downloaded.\nTotal Size: " + str(size(total, system=si)) + "\nDownloaded Sizze: " + str(size(current, system=si)))
                 dosyaismi = await client.download_media(update.message,progress_callback=progress)
                 await message.delete()
-                message2 = await update.reply("Succesfully downloaded... Uploadinh to Yandex...")
+                message2 = await update.reply("Succesfully downloaded... Uploading to Yandex...")
                 y = yadisk.YaDisk(token=token2)
                 y.upload(dosyaismi, dosyaismi)
                 y.publish(dosyaismi)
@@ -67,7 +67,7 @@ async def handler(update):
                 url2 = y.get_code_url()
                 async with client.conversation(userid) as conv:
                     try:
-                        await conv.send_message('Aşağıdaki butona tıklayıp yandexin websitesine gideceksiniz, ardından uygulamaya izin veriniz, izin verdikten sonra bir kod alacaksınız. O kodu yazınız.', buttons=[
+                        await conv.send_message('Aşağıdaki butona tıklayıp yandexin websitesine gideceksiniz, ardından uygulamaya izin veriniz, izin verdikten sonra bir kod alacaksınız. O kodu yazınız. Bu işlemi çok hızlı bir şekilde yapmanız gerekmektedir.', buttons=[
                         [Button.url('Bu uygulamaya izin ver', url2)]
                         ])
                         code = await conv.get_response()
