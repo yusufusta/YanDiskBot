@@ -10,42 +10,34 @@
     "yandex disk"
   ],
   "repository": "https://github.com/Quiec/YanDiskBot/",
-  "website": "https://telegram.dog/quiec",
-  "success_url": "https://t.me/quiecs/79",
+  "website": "https://telegram.dog/fusuf",
+  "success_url": "https://t.me/fusufs",
   "env": {
     "ENV": {
       "description": "Setting this to ANYTHING will enable environment variables.",
       "value": "ANYTHING"
     },
-    "APIID": {
+    "API_ID": {
       "description": "Get this value from my.telegram.org! Please do not steal",
       "value": "6"
     },
-    "APIHASH": {
+    "API_HASH": {
       "description": "Get this value from my.telegram.org! Please do not steal",
-      "value": ""
+      "value": "eb06d4abfb49dc3eeb1aeb98ae0f581e"
     },
-    "SESSION": {
-      "description": "session name",
-      "value": "yandex"
-    },
-    "BOTTOKEN": {
+    "BOT_TOKEN": {
       "description": "Get your bot token from @botfather",
       "required": true
     },
-    "ADMINID": {
+    "ADMIN_ID": {
       "description": "Type your TELEGRAM ID",
       "required": true
     },
-    "YANDEXAPPID": {
-      "description": "Type your TELEGRAM username without @",
-      "required": true
-    },
-    "YANDEXAPPSECRET": {
+    "YANDEX_APP_ID": {
       "description": "https://github.com/Quiec/YanDiskBot#settingsenv",
       "required": true
     },
-    "ADMINUSERNAME": {
+    "YANDEX_APP_SECRET": {
       "description": "https://github.com/Quiec/YanDiskBot#settingsenv",
       "required": true
     }
