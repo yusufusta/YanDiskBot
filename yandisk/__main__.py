@@ -2,12 +2,12 @@ from . import client
 from .commands import ALL_COMMANDS
 import asyncio
 import importlib
-from logging import getLogger, basicConfig, INFO
+from logging import getLogger, basicConfig, DEBUG
 from os import environ
 
 basicConfig(
     format="%(asctime)s | %(name)s - [%(levelname)s] --> %(message)s",
-    level=INFO)
+    level=DEBUG)
 
 loop = asyncio.get_event_loop()
 async def main():    

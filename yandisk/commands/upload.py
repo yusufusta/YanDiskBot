@@ -72,22 +72,23 @@ async def upload(event):
     if event.media is None:
         return
 
-    event2 = await event.reply("`Your file downloading! Please Wait...`")
+    mesaj = await event.reply("`Your file downloading! Please Wait...`")
     baslangic = time.time()
-
-    filename = await event.download_media(progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
-                progress(d, t, event2, baslangic, "Trying to Download Your File")
-            ))
-    await event2.edit("`Successfully downloaded file! Uploading to YaDisk...`")
+    filename = await event.download_media(progress_callback=lambda d, t: asyncio.get_event_loop().create_task(progress(d, t, mesaj, baslangic, "Trying to Download Your File")))
+    await mesaj.edit("`Uploading to YaDisk! Please Wait...`")
 
     try:
         await Yandex.upload(filename, filename)
     except exceptions.PathExistsError:
-        return await event.edit("**You have already uploaded a file with this name.**\n__Do you want remove old file?__", buttons=[Button.inline('✅ Yes', f'remove-{filename}'), Button.inline('❌ No', f'nodelete-{filename}')])
+        await mesaj.edit("**You have already uploaded a file with this name.**\n__Do you want remove old file?__", 
+            buttons=[Button.inline('✅ Yes', f'remove-{filename}'), Button.inline('❌ No', f'nodelete-{filename}')])
     except exceptions.UnauthorizedError:
-        return await event.edit("You are not logged to Yandex. Please use /login then try upload file.")
+        await mesaj.edit("You are not logged to Yandex. Please use /login then try upload file.")
+    except Exception as e:
+        print(str(e))
 
-    return await event.edit("**✅ File has been successfully uploaded to Yandex. Do you want to make it public?**", buttons=[Button.inline('✅ Yes', f'publish-{filename}'), Button.inline('❌ No', f'nopublish')])
+    await mesaj.edit("**✅ File has been successfully uploaded to Yandex. Do you want to make it public?**",
+        buttons=[Button.inline('✅ Yes', f'publish-{filename}'), Button.inline('❌ No', f'nopublish')])
 
 @message(pattern="/upload ?([\w.]*) ?(.*)")
 async def upload_url(event):
@@ -104,8 +105,10 @@ async def upload_url(event):
     try:
         await Yandex.upload(filename, filename)
     except exceptions.PathExistsError:
-        return await event.edit("**You have already uploaded a file with this name.**\n__Do you want remove old file?__", buttons=[Button.inline('✅ Yes', f'remove-{filename}'), Button.inline('❌ No', f'nodelete-{filename}')])
+        await event.edit("**You have already uploaded a file with this name.**\n__Do you want remove old file?__", buttons=[Button.inline('✅ Yes', f'remove-{filename}'), Button.inline('❌ No', f'nodelete-{filename}')])
     except exceptions.UnauthorizedError:
-        return await event.edit("You are not logged to Yandex. Please use /login then try upload file.")
+        await event.edit("You are not logged to Yandex. Please use /login then try upload file.")
+    except Exception as e:
+        print(str(e))
 
-    return await event.edit("**✅ File has been successfully uploaded to Yandex. Do you want to make it public?**", buttons=[Button.inline('✅ Yes', f'publish-{filename}'), Button.inline('❌ No', f'nopublish')])
+    await event.edit("**✅ File has been successfully uploaded to Yandex. Do you want to make it public?**", buttons=[Button.inline('✅ Yes', f'publish-{filename}'), Button.inline('❌ No', f'nopublish')])
